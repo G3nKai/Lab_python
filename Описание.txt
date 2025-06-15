@@ -8,3 +8,43 @@ python -m pip install "fastapi[standard]"
 
 
 Продолжим работу уже в редакторе кода VS Code.
+
+4) Следуая документации FastApi, создадим main.py и запустим наш проект:
+#main.py
+from typing import Union
+
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+
+
+@app.get("/items/{item_id}")
+def read_item(item_id: int, q: Union[str, None] = None):
+    return {"item_id": item_id, "q": q}
+
+в терминал впишем: fastapi dev main.py - наш проект запущен.
+
+   FastAPI   Starting development server 🚀
+ 
+             Searching for package file structure from directories with __init__.py files
+             Importing from D:\Programming\Projects\pythonLab
+ 
+    module   🐍 main.py
+ 
+      code   Importing the FastAPI app object from the module with the following code:
+ 
+             from main import app
+ 
+       app   Using import string: main:app
+
+    server   Server started at http://127.0.0.1:8000
+    server   Documentation at http://127.0.0.1:8000/docs
+
+       tip   Running in development mode, for production use: fastapi run
+
+5)
