@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
-from src.Infrastructure.DTO.OperationResultDTO import OperationResultDTO
 from src.Domain.Models.person import Person
 from src.Infrastructure.DTO.personDTO import PersonDTO
 from sqlalchemy.dialects.postgresql import UUID
