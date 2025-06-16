@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from fastapi import FastAPI
 
 app = FastAPI()
-
+print("App started")
 class Item(BaseModel):
     name: str
     price: float
