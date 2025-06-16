@@ -25,4 +25,4 @@ class PersonService():
         return self.repo.update_person_by_id(person_id, dto)
 
     def delete_by_id(self, person_id: str) -> Optional[Person]:
-        self.repo.delete_person_by_id(person_id)
+        return self.repo.delete_person_by_id(person_id) 

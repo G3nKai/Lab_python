@@ -57,4 +57,6 @@ def update_person(person_id: uuid.UUID, person: PersonDTO, db: Session = Depends
 @router.delete("/{person_id}")
 def delete_person(person_id: uuid.UUID, db: Session = Depends(get_db)):
     service = PersonService(db)
-    return service.delete_by_id(person_id)
+    if not service.delete_by_id(person_id):
+        raise HTTPException(status_code=404, detail="Person not found") 
+    return {"detail": "Person successfully deleted"}
