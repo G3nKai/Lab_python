@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from src.Infrastructure.database import Base, engine
+from src.Application.Controllers.PersonController import router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -11,3 +12,4 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(lifespan=lifespan)
+app.include_router(router)
