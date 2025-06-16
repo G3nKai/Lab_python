@@ -3,11 +3,9 @@ from sqlalchemy.exc import IntegrityError, DataError
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from src.Domain.Models.person import Person
-from sqlalchemy.orm import Session
 from src.Infrastructure.Repositories.PersonRepository import PersonRepository
 from src.Infrastructure.DTO.OperationResultDTO import OperationResultDTO
 from src.Infrastructure.DTO.personDTO import PersonDTO
-import uuid
 from sqlalchemy.dialects.postgresql import UUID
 
 class PersonService():

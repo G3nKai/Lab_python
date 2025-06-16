@@ -3,7 +3,6 @@ from typing import List, Optional
 from src.Infrastructure.DTO.personDTO import PersonDTO
 from src.Domain.Interfaces.IPersonRepository import IPersonRepository
 from src.Domain.Models.person import Person
-import uuid
 from sqlalchemy.dialects.postgresql import UUID
 
 class PersonRepository(IPersonRepository):
