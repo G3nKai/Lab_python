@@ -43,7 +43,7 @@ class PersonService():
         except IntegrityError as e:
             raise HTTPException(status_code=409, detail="Person with this email already exists")
 
-    def delete_by_id(self, person_id: str) -> OperationResultDTO:
+    def delete_by_id(self, person_id: UUID) -> OperationResultDTO:
         deleted = self.repo.delete_person_by_id(person_id)
         if not deleted:
             raise HTTPException(status_code=404, detail="Person not found") 
