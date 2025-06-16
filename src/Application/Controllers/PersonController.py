@@ -1,3 +1,4 @@
+from sqlalchemy.exc import IntegrityError
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
@@ -29,10 +30,14 @@ def get_person_by_id(person_id: uuid.UUID, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Person not found")
     return person
 
-@router.post("/")
+@router.post("/")#
 def create_person(person: PersonDTO, db: Session = Depends(get_db)):
     service = PersonService(db)
-    return service.create(person)
+    try:
+        return service.create(person)
+    except IntegrityError as e:
+        db.rollback()
+        raise HTTPException(status_code=409, detail="Person with this email already exists")
 
 @router.put("/{person_id}")
 def update_person(person_id: uuid.UUID, person: PersonDTO, db: Session = Depends(get_db)):
