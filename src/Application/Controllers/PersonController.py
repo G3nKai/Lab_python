@@ -14,22 +14,22 @@ def get_db():
     finally:
         db.close()
 
-@router.get("/")#+
+@router.get("/")
 def get_all_persons(db: Session = Depends(get_db)):
     service = PersonService(db)
     return service.get_all()
 
-@router.get("/{person_id}")#+
+@router.get("/{person_id}")
 def get_person_by_id(person_id: uuid.UUID, db: Session = Depends(get_db)):
     service = PersonService(db)
     return service.get_by_id(person_id)
 
-@router.post("/")#+
+@router.post("/")
 def create_person(person: PersonDTO, db: Session = Depends(get_db)):
     service = PersonService(db)
     return service.create(person)
 
-@router.put("/{person_id}")#+
+@router.put("/{person_id}")
 def update_person(person_id: uuid.UUID, person: PersonDTO, db: Session = Depends(get_db)):
     service = PersonService(db)
     return service.update_by_id(person_id, person)

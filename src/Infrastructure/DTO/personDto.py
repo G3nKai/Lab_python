@@ -1,6 +1,5 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
-import uuid
 
 class PersonDTO(BaseModel):
     name: str
