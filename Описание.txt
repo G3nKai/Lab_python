@@ -67,7 +67,7 @@ Base = declarative_base()
 #person.py
 import uuid
 from sqlalchemy import Column, Integer, String
-from Infrastructure.database import Base
+from src.Infrastructure.database import Base
 from sqlalchemy.dialects.postgresql import UUID
 
 class Person(Base):
@@ -110,8 +110,8 @@ Base = declarative_base()
 #IPersonRepository.py
 from abc import ABC, abstractmethod
 from typing import List, Optional
-from Domain.Models.person import Person
-from Infrastructure.DTO.personDTO import PersonDTO
+from src.Domain.Models.person import Person
+from src.Infrastructure.DTO.personDTO import PersonDTO
 
 class IPersonRepository(ABC):
     @abstractmethod
@@ -159,3 +159,23 @@ else:
 
 cursor.close()
 conn.close()
+
+Чтобы создать бд, запускаем: python -m src.Infrastructure.create_db
+12) Создаем схему БД
+#main.py
+from typing import Union
+from pydantic import BaseModel
+from fastapi import FastAPI
+from contextlib import asynccontextmanager
+from src.Infrastructure.database import Base, engine
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    Base.metadata.create_all(bind=engine)
+    print("Tables created")
+    yield
+
+app = FastAPI(lifespan=lifespan)
+запускаем проект uvicorn src.Application.main:app --reload
+проект запущен - таблица создана в БД
+13) 
