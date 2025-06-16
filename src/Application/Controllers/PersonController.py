@@ -1,4 +1,4 @@
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, DataError
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
@@ -38,6 +38,9 @@ def create_person(person: PersonDTO, db: Session = Depends(get_db)):
     except IntegrityError as e:
         db.rollback()
         raise HTTPException(status_code=409, detail="Person with this email already exists")
+    except DataError:
+        db.rollback()
+        raise HTTPException(status_code=400, detail="Field value is too long")
 
 @router.put("/{person_id}")
 def update_person(person_id: uuid.UUID, person: PersonDTO, db: Session = Depends(get_db)):
