@@ -21,8 +21,8 @@ class PersonService():
     def create(self, dto: PersonDTO) -> Optional[Person]:
         return self.repo.create_person(dto)
 
-    def update_by_id(self, person_id: UUID, dto: PersonDTO) -> OperationResultDTO:
+    def update_by_id(self, person_id: UUID, dto: PersonDTO) -> Optional[Person]:
         return self.repo.update_person_by_id(person_id, dto)
 
-    def delete_by_id(self, person_id: str) -> OperationResultDTO:
+    def delete_by_id(self, person_id: str) -> Optional[Person]:
         self.repo.delete_person_by_id(person_id)

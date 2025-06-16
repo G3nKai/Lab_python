@@ -30,7 +30,7 @@ def get_person_by_id(person_id: uuid.UUID, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Person not found")
     return person
 
-@router.post("/")#
+@router.post("/")#+
 def create_person(person: PersonDTO, db: Session = Depends(get_db)):
     service = PersonService(db)
     try:
@@ -42,13 +42,17 @@ def create_person(person: PersonDTO, db: Session = Depends(get_db)):
         db.rollback()
         raise HTTPException(status_code=400, detail="Field value is too long")
 
-@router.put("/{person_id}")
+@router.put("/{person_id}")#+
 def update_person(person_id: uuid.UUID, person: PersonDTO, db: Session = Depends(get_db)):
     service = PersonService(db)
-    updated = service.update_by_id(person_id, person)
-    if not updated:
-        raise HTTPException(status_code=404, detail="Person not found")
-    return updated
+    try:
+        updated = service.update_by_id(person_id, person)
+        if updated is None:
+            raise HTTPException(status_code=404, detail="Person not found")
+        return updated
+    except IntegrityError as e:
+        raise HTTPException(status_code=409, detail="Person with this email already exists")
+
 
 @router.delete("/{person_id}")
 def delete_person(person_id: uuid.UUID, db: Session = Depends(get_db)):

@@ -26,6 +26,8 @@ class PersonRepository(IPersonRepository):
     
     def update_person_by_id(self, id: UUID, person_dto: PersonDTO) -> Optional[Person]:
         person = self.db.query(Person).filter(Person.id == id).first()
+        if person == None:
+            return None
         for key, value in person_dto.model_dump(exclude_unset=True).items():
             setattr(person, key, value)
         self.db.commit()
