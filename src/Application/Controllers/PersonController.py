@@ -16,12 +16,12 @@ def get_db():
     finally:
         db.close()
 
-@router.get("/")
+@router.get("/")#+
 def get_all_persons(db: Session = Depends(get_db)):
     service = PersonService(db)
     return service.get_all()
 
-@router.get("/{person_id}")
+@router.get("/{person_id}")#+
 def get_person_by_id(person_id: uuid.UUID, db: Session = Depends(get_db)):
     service = PersonService(db)
     person = service.get_by_id(person_id)
