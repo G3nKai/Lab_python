@@ -12,11 +12,15 @@ python -m pip install "fastapi[standard]"
 4) Следуая документации FastApi, создадим main.py и запустим наш проект:
 #main.py
 from typing import Union
-
+from pydantic import BaseModel
 from fastapi import FastAPI
 
 app = FastAPI()
 
+class Item(BaseModel):
+    name: str
+    price: float
+    is_offer: Union[bool, None] = None
 
 @app.get("/")
 def read_root():
@@ -26,6 +30,11 @@ def read_root():
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
+
+@app.put("/items/{item_id}")
+def update_item(item_id: int, item: Item):
+    return {"item_name": item.name, "item_id": item_id}
+
 
 в терминал впишем: fastapi dev main.py - наш проект запущен.
 
@@ -47,4 +56,25 @@ def read_item(item_id: int, q: Union[str, None] = None):
 
        tip   Running in development mode, for production use: fastapi run
 
-5)
+5) Установил ORM - SQLAlchemy
+pip install SQLAlchemy
+6) Создаю database.py, который будет отвечать за схему БД. Создаю в нем базовый класс для моделей.
+#database.py
+from sqlalchemy.orm import declarative_base
+
+Base = declarative_base()
+7) Создаю модель БД person.py:
+#person.py
+from sqlalchemy import Column, Integer, String
+from infrastructure.database import Base
+
+class Person(Base):
+    __tablename__ = "persons"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(127), index=True, nullable=False)
+    description = Column(String(511))
+    phone = Column(String(20), index=True)
+    email = Column(String(127), unique=True, index=True, nullable=False)
+    address = Column(String(255), index=True)
+8)
